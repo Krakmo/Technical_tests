@@ -62,7 +62,7 @@ for dvd in liste_dvds_availables:
 
 if st.button('Reset panier'):
     for dvd in liste_dvds_availables:
-      st.session_state[dvd] = 0
+        st.session_state[dvd] = 0
 
 st.write("## Prix à payer")
 st.write(panier_prix(st.session_state))
