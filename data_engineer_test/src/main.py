@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+liste_dvds_availables = ["Back To The Future 1", "Back To The Future 2", "Back To The Future 3", "La chèvre", "Harry Potter à l'école des sorciers"]
+
 st.title("Boutique DVDs")
 
 st.write("""
@@ -31,7 +33,7 @@ def panier_prix(panier_dict):
     for dvd in liste_dvds_no_duplicate:
         if "back to the future" in dvd.lower():
             compteur = compteur + 1
-               
+
     if compteur == 2:
         mod_prix = 0.9
     
@@ -42,14 +44,11 @@ def panier_prix(panier_dict):
 
     return prix_tot
 
-
-liste_dvds = ['Back To The Future 1', 'Back To The Future 2', 'Back To The Future 3', 'La chèvre', 'Seigneur des anneaux : Les deux Tours']
-
-for dvd in liste_dvds:
+for dvd in liste_dvds_availables:
     if dvd not in st.session_state:
         st.session_state[dvd] = 0
 
-for dvd in liste_dvds:
+for dvd in liste_dvds_availables:
     if st.button(dvd):
         st.session_state[dvd] += 1
 
@@ -58,8 +57,12 @@ st.write("""
 """)
 
 prix = 0
-for dvd in liste_dvds:
+for dvd in liste_dvds_availables:
     st.write(dvd, st.session_state[dvd])
+
+if st.button('Reset panier'):
+    for dvd in liste_dvds_availables:
+      st.session_state[dvd] = 0
 
 st.write("## Prix à payer")
 st.write(panier_prix(st.session_state))
