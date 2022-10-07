@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
 
+import os
+
+file_path = os.path.realpath(__file__)
+
 from data_preparation import data_prep
 from load_best_model_and_visualisation import load_model, use_model, visualisation
 
