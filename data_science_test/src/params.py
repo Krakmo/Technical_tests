@@ -1,6 +1,6 @@
 import os
 
-main_filepath = 'app/technical_tests/data_science_test/'
+main_filepath = '../'
 
 filepath_datas = main_filepath + '/datas/'
 
