@@ -1,0 +1,5 @@
+* Tenter une normalisation des features utilisées (standartscaler)
+* Sortir la séléction des features du notebook et la mettre dans un script (études de la corrélation)
+* Utiliser d'autres modèles (RandomForestRegressor)
+* Tester avec + de données (350 lignes de données très peu pour bien faire performer un modèle)
+* Créer une fonction qui traite les valeurs manquantes (non nécessaire ici car les données étaient propres)
