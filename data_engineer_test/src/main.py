@@ -7,8 +7,9 @@ liste_dvds_availables = ["Back To The Future 1", "Back To The Future 2", "Back T
 st.title("Boutique DVDs")
 
 st.write("""
-## DVDs disponibles (cliquez pour ajouter l'objet au panier)
+## DVDs disponibles
 """)
+st.write("""(cliquez pour ajouter l'objet au panier)""")
 
 def panier_prix(panier_dict):
 
