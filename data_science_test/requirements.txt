@@ -1,4 +1,6 @@
 pandas
-sklearn
+scikit-learn
 plotly
 kaleido
+numpy
+xgboost
