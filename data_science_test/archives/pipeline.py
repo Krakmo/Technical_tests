@@ -22,6 +22,8 @@ from hyperopt.pyll import scope
 
 from sklearn.metrics import mean_squared_error
 
+import pickle 
+
 def data_preparation(df_student, columns_boolean, columns_categorical):
     def convert_bool_in_number(df, column_name):
         df[column_name] = pd.Series(np.where(df[column_name].values == 'yes', 1, 0),
@@ -57,7 +59,7 @@ def split_dataset(df_preprocessed, features_test, target):
 
     return X_train, X_test, y_train, y_test
 
-def train_model(model, X_train, X_test, y_train, y_test):
+def train_model(model, X_train, X_test, y_train, y_test, filepath_model, model_str):
 
     lr = model()
     lr.fit(X_train, y_train)
@@ -66,6 +68,18 @@ def train_model(model, X_train, X_test, y_train, y_test):
 
     rmse = mean_squared_error(y_test, y_pred, squared=False)
     #print('RMSE = ', rmse)
+
+    with open(filepath_model + model_str + ".reg", "wb") as f_out:
+        pickle.dump(lr, f_out)
+
+    return lr
+
+def load_and_use_model(df_preprocessed, filepath_model, str_model):
+
+    with open(filepath_model+ str_model+".reg", "rb") as f_out:
+        model = pickle.load(f_out)
+
+    y_pred = model.predict(df_preprocessed)
 
     return y_pred
 
@@ -77,33 +91,56 @@ def visualisation(df_student, y_test, y_pred, filepath_figures, filename_figure)
     df_tot['Full_Name'] = df_tot['FirstName'] + ' ' + df_tot['FamilyName']
 
     fig = px.scatter(df_tot, x="FinalGrade", y="score", hover_name = "Full_Name")
+    fig['layout']['xaxis']['autorange'] = "reversed"
     fig.update_traces(textposition='top center', marker= dict(color = 'blue'))
     fig.update_layout(
         height= 600,
         width = 1000,
-        title_text='Score in function of FinalGrade'
+        title_text='Score in function of FinalGrade',
     )
+    fig.update_layout({'plot_bgcolor': 'rgba(119, 181, 254, 255)'
+                      })
+
+    fig['layout']['xaxis']['autorange'] = "reversed"
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='Black')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='Black')
+    fig.update_traces(marker_size=10)
 
     return fig
 
+def build(df_student, columns_boolean, columns_categorical, features_model, target, model, str_model, filepath_model, filepath_figures):
+
+    df_preprocessed = data_preparation(df_student, columns_boolean, columns_categorical)
+
+    X_train, X_test, y_train, y_test = split_dataset(df_preprocessed, features_model, target)
+
+    lr = train_model(model, X_train, X_test, y_train, y_test, filepath_model, str_model)
+
+    y_pred = load_and_use_model(df_preprocessed[features_model], filepath_model, str_model)
+
+    plot = visualisation(df_student, y_test, y_pred, filepath_figures, str_model)
+
+    return plot
+    
 if __name__ == "__main__":
 
-    filepath = 'D:/Python/Ekinox/data_science_test/datas/'
-    filename =  'student_data.csv'
-    df_student = pd.read_csv(filepath + filename)
+    main_filepath = 'D:/Python/Ekinox/Technical_tests/data_science_test/'
 
-    target = ['FinalGrade']
+    filepath_datas = main_filepath + '/datas/'
+
+    filename =  'student_data.csv'
+    df_student = pd.read_csv(filepath_datas + filename)
+
     columns_numerical = ['age', 'Medu', 'Fedu', 'traveltime', 'studytime', 'failures', 'famrel', 'freetime', 'goout', 'Dalc', 'Walc', 'health', 'absences']
     columns_boolean = ['schoolsup', 'paid', 'famsup', 'activities', 'nursery', 'higher', 'internet', 'romantic']
     columns_categorical = ['school', 'sex', 'address', 'famsize', 'Pstatus', 'Mjob', 'Fjob', 'reason', 'guardian']
 
-    features_test = ['failures', 'schoolsup', 'absences', 'Medu', 'Walc', 'goout', 'Mjob_other', 'Dalc', 'age', 'Mjob_health']
+    features_model = ['failures', 'schoolsup', 'absences', 'Medu', 'Walc', 'goout', 'Mjob_other', 'Dalc', 'age', 'Mjob_health']
+    target = ['FinalGrade']
 
     model = LinearRegression
-    filepath_figures = 'D:/Python/Ekinox/data_science_test/figures/'
-    filename_figure = 'LinearRegression'
+    str_model = 'LinearRegression'
+    filepath_figures = main_filepath + '/figures/'
+    filepath_model = main_filepath + '/models/'
 
-    df_preprocessed = data_preparation(df_student, columns_boolean, columns_categorical)
-    X_train, X_test, y_train, y_test = split_dataset(df_preprocessed, features_test, target)
-    y_pred = train_model(model, X_train, X_test, y_train, y_test)
-    plot = visualisation(df_student, y_test, y_pred, filepath_figures, filename_figure)
+    plot = build(df_student, columns_boolean, columns_categorical, features_model, target, model, str_model, filepath_model, filepath_figures)
