@@ -1,8 +1,8 @@
 import os
 
-main_filepath = '../'
+main_filepath = '..'
 
-filepath_datas = main_filepath + '/datas/'
+filepath_datas = main_filepath + 'datas/'
 
 filename =  'student_data.csv'
 
