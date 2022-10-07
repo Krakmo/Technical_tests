@@ -3,3 +3,4 @@
 * Utiliser d'autres modèles (RandomForestRegressor)
 * Tester avec + de données (350 lignes de données très peu pour bien faire performer un modèle)
 * Créer une fonction qui traite les valeurs manquantes (non nécessaire ici car les données étaient propres)
+* Utiliser MLFlow pour une meilleure gestion des modèles et Prefect pour la gestion des scripts
