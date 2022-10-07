@@ -1,8 +1,8 @@
 import os
 
-main_filepath = '..'
+main_filepath = '/app/technical_tests/data_science_test/'
 
-filepath_datas = main_filepath + '/datas/'
+filepath_datas = main_filepath + 'datas/'
 
 filename =  'student_data.csv'
 
@@ -17,8 +17,8 @@ target = ['FinalGrade']
 
 model_list_str = ['LinearRegression', 'Lasso', 'Ridge', 'XGBRegressor']
 
-filepath_model = main_filepath + '/models/'
+filepath_model = main_filepath + 'models/'
 
 model_str = 'Lasso'
 
-filepath_figures = main_filepath + '/figures/'
+filepath_figures = main_filepath + 'figures/'
