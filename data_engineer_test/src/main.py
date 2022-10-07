@@ -1,12 +1,13 @@
 import streamlit as st
 import pandas as pd
 
+# Choose a list of DVDs available in the shop
 liste_dvds_availables = ["Back To The Future 1", "Back To The Future 2", "Back To The Future 3", "La chèvre", "Harry Potter à l'école des sorciers"]
 
 st.title("Boutique DVDs")
 
 st.write("""
-## DVDs disponibles
+## DVDs disponibles (cliquez pour ajouter l'objet au panier)
 """)
 
 def panier_prix(panier_dict):
@@ -66,11 +67,6 @@ if st.button('Reset panier'):
 
 st.write("## Prix à payer")
 st.write(panier_prix(st.session_state))
-# s = ''
 
-# for i in liste_dvds:
-#     s += "- " + i + "\n"
-
-# st.markdown(s)
 
 
