@@ -4,3 +4,4 @@ plotly
 kaleido
 numpy
 xgboost
+matplotlib
