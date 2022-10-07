@@ -1,4 +1,6 @@
-main_filepath = 'D:/Python/Ekinox/Technical_tests/data_science_test/'
+import os
+
+main_filepath = 'app/Technical_tests/data_science_test/'
 
 filepath_datas = main_filepath + '/datas/'
 
@@ -8,7 +10,7 @@ columns_numerical = ['age', 'Medu', 'Fedu', 'traveltime', 'studytime', 'failures
 columns_boolean = ['schoolsup', 'paid', 'famsup', 'activities', 'nursery', 'higher', 'internet', 'romantic']
 columns_categorical = ['school', 'sex', 'address', 'famsize', 'Pstatus', 'Mjob', 'Fjob', 'reason', 'guardian']
 
-# features selected after correlation study in notebook
+# features selected after correlation study in notebook that will be used in our model
 features_model = ['failures', 'schoolsup', 'absences', 'Walc', 'goout', 'Dalc', 'studytime', 'internet']
 
 target = ['FinalGrade']
